@@ -15,6 +15,8 @@ export default function Game(){
     let status;
     if (winner)
       status = 'Winner: ' + winner;
+    else if(currentMove===9)
+      status='draw';
     else 
       status = 'Next turn: ' + (xIsNext ? 'X' : 'O');
 
@@ -29,6 +31,8 @@ export default function Game(){
       setXIsNext(nextMove%2===0);
     }
     function PlayAgain(){
+      const nextHistory=[...history.slice(0,1)];
+      setHistory(nextHistory);
       setXIsNext(true);
       setCurrentMove(0);
     }
@@ -46,9 +50,9 @@ export default function Game(){
         )
     })
     return (<div className='game'>
-        <div className={(winner?'result':'status')}>
+        <div className={(winner||currentMove===9?'result':'status')}>
             <span>{status.toUpperCase()}</span>
-            <button className={(winner?'playAgain':'notPlayAgain')} onClick={()=>PlayAgain()}>Play Again</button>
+            <button className={(winner||currentMove===9?'playAgain':'notPlayAgain')} onClick={()=>PlayAgain()}>Play Again</button>
         </div>
         <div className='boardHistory'>
           <div className='board'>
